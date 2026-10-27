@@ -17,32 +17,13 @@
 
 package io.minio.messages;
 
-import com.google.api.client.util.Key;
-import io.minio.Time;
-import java.time.ZonedDateTime;
-import org.xmlpull.v1.XmlPullParserException;
+import org.simpleframework.xml.Namespace;
+import org.simpleframework.xml.Root;
 
-/** Helper class to parse Amazon AWS S3 response XML containing object item information. */
-@SuppressWarnings({"SameParameterValue", "unused"})
-public class CopyPartResult extends XmlEntity {
-  @Key("ETag")
-  private String etag;
-
-  @Key("LastModified")
-  private String lastModified;
-
-  public CopyPartResult() throws XmlPullParserException {
-    super();
-    super.name = "CopyPartResult";
-  }
-
-  /** Returns last modified time of the object. */
-  public ZonedDateTime lastModified() {
-    return ZonedDateTime.parse(lastModified, Time.RESPONSE_DATE_FORMAT);
-  }
-
-  /** Returns ETag of the object. */
-  public String etag() {
-    return etag;
-  }
-}
+/**
+ * Denotes UploadPartCopy response XML as per
+ * https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html.
+ */
+@Root(name = "CopyPartResult", strict = false)
+@Namespace(reference = "http://s3.amazonaws.com/doc/2006-03-01/")
+public class CopyPartResult extends CopyObjectResult {}
